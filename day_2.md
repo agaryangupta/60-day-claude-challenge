@@ -77,11 +77,11 @@ This activity demonstrated that AI performance depends heavily on how instructio
 
 ### Lazy Prompt Output
 
-(Add screenshot here)
+![Lazy Prompt Output](36cc88f1-8e2b-4648-8dda-505a78fd75d7.png)
 
 ### Engineered Prompt Output
 
-(Add screenshot here)
+![Engineered Prompt Output](da8df619-f1b9-4c58-989f-4a148d734cc4.png)
 
 ---
 

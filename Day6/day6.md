@@ -65,13 +65,13 @@ The best results come from combining AI recommendations with personal review and
 
 ## 📸 ATS Analysis
 
-![ATS Analysis](Day6/Screenshot 2026-06-06 122118.png)
+![ATS Analysis](Screenshot%2026-06-06%122118.png)
 
 ---
 
 ## 📸 Resume Comparison
 
-![Resume Comparison](Day6/Screenshot 2026-06-06 122214.png)
+![Resume Comparison](Screenshot%2026-06-06%122214.png)
 
 ---
 

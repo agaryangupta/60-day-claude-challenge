@@ -99,7 +99,7 @@ Choosing the correct model and effort level can significantly improve productivi
 
 # 📸 Generated Claude Usage Strategy
 
-![Claude Usage Strategy](claude-usage-strategy.png)
+![Claude Usage Strategy](7fcd0872-8630-4008-8d82-91d83158452d.png)
 
 ---
 

@@ -67,7 +67,7 @@ A modern dashboard concept that combines environmental data with personal health
 
 # 📸 Dashboard Preview
 
-![Personal Environmental Health Analyzer](environmental-health-analyzer.png)
+![Personal Environmental Health Analyzer](a79a61f3-7d1c-47c5-8535-02fcd67af929.png)
 
 ---
 

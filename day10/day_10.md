@@ -57,9 +57,7 @@ A professional portfolio website showcasing my skills, projects, achievements, a
 
 ## Homepage
 
-![Portfolio Homepage](<Screenshot 2026-06-10 000001.png>)
-
-📄 Source Code: [index.html](index.html)
+![Portfolio Homepage](<Screenshot 2026-06-10 020817.png>)
 
 ---
 
@@ -67,7 +65,11 @@ A professional portfolio website showcasing my skills, projects, achievements, a
 
 ![Projects Section](<Screenshot 2026-06-10 000002.png>)
 
-📄 Source Code: [index.html](index.html)
+---
+
+## Services Section
+
+![Projects Section](<Screenshot 2026-06-10 020852.png>)
 
 ---
 

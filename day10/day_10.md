@@ -63,13 +63,13 @@ A professional portfolio website showcasing my skills, projects, achievements, a
 
 ## Projects Section
 
-![Projects Section](<Screenshot 2026-06-10 000002.png>)
+![Projects Section](<Screenshot 2026-06-10 020852.png>)
 
 ---
 
 ## Services Section
 
-![Projects Section](<Screenshot 2026-06-10 020852.png>)
+![Projects Section](<Screenshot 2026-06-10 020838.png>)
 
 ---
 

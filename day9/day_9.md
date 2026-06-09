@@ -51,12 +51,14 @@ NutriScope is a nutrition-focused web application that helps users analyze food-
 # 📸 Project Screenshots
 
 ## Homepage
+📄 Source: [NutriScope.html](NutriScope.html)
 
 ![NutriScope Homepage](<Screenshot 2026-06-09 091515.png>)
 
 ---
 
 ## Dashboard
+📄 Source: [nutriscope-v2-visible.html](nutriscope-v2-visible.html)
 
 ![NutriScope Dashboard](<Screenshot 2026-06-09 093230.png>)
 

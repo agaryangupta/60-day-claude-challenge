@@ -61,7 +61,7 @@ The job description focused on:
 
 # 📸 ATS Dashboard & Resume Analysis
 
-![ATS Resume Analysis](ats-resume-analysis.png)
+![ATS Resume Analysis](e589ea68-d60e-4b9d-9628-e29d326cb1c1.png)
 
 The dashboard contains:
 

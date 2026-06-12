@@ -85,7 +85,7 @@ Prepared a concise and impactful self-introduction suitable for:
 
 # 📸 Toolkit Overview
 
-![Career Toolkit](career-toolkit-overview.png)
+![Career Toolkit](6a824b8d-b0fd-466a-ae86-7e5c1a9dac11.png)
 
 The generated toolkit includes:
 

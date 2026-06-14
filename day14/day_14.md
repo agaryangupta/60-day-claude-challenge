@@ -53,7 +53,7 @@ The AI analyzed:
 
 # 📸 Risk Analysis Dashboard
 
-![AI Job Red Flag Detector](job-red-flag-detector.png)
+![AI Job Red Flag Detector](ef778f75-eca8-48ba-bccf-72f3a056ce17.png)
 
 ---
 

@@ -30,7 +30,7 @@ A structured AI-generated report that transforms personal inputs into a comprehe
 
 # 📸 Dashboard Report
 
-![Personal Life Analysis Consultant](life-analysis-report.png)
+![Personal Life Analysis Consultant](5d78e405-05ce-4c07-b239-2bf5b87071c3.png)
 
 The generated report included:
 

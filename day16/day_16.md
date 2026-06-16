@@ -38,7 +38,7 @@ The skill generates evidence-based research reports and investor-friendly summar
 
 # 📸 Custom Skill & Research Dashboard
 
-![Stock Fundamental Research Skill](stock-fundamental-research-dashboard.png)
+![Stock Fundamental Research Skill](4c3c3cbd-3d13-40cd-abc6-1d7ce056efc2.png)
 
 ---
 

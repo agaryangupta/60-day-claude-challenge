@@ -54,7 +54,7 @@ The Vehicle Cost & Fuel Analysis Dashboard provides:
 
 # 📸 Dashboard Preview
 
-![Vehicle Cost & Fuel Analysis Dashboard](vehicle-cost-dashboard.png)
+![Vehicle Cost & Fuel Analysis Dashboard](8535b7bf-eb03-4cc2-895d-2c275a1ab53a.png)
 
 ---
 

@@ -44,7 +44,7 @@ into structured dashboards containing:
 
 # 📸 Dashboard Preview
 
-![Brain Dump Action Planner](brain-dump-action-planner-dashboard.png)
+![Brain Dump Action Planner](777063ae-4be4-43da-853a-0b0a6a130dd6.png)
 
 ---
 

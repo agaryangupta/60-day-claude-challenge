@@ -31,7 +31,7 @@ An AI-powered football analytics dashboard that combines:
 
 # 📸 Dashboard Preview
 
-![Football Intelligence Hub](football-intelligence-hub.png)
+![Football Intelligence Hub](60a8605e-1581-4d31-835e-2fbdb312a714.png)
 
 ---
 

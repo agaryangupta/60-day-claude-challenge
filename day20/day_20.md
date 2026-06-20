@@ -30,11 +30,11 @@ Built an interactive **AI Face Puzzle Game** that transforms a webcam-captured p
 
 ### Camera Preview
 
-(Screenshot1.png)
+![Camera Preview](Screenshot1.png)
 
 ### Gameplay
 
-(Screenshot2.png)
+![Gameplay](Screenshot2.png)
 
 
 ## 📚 Key Learnings

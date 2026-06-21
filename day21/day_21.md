@@ -33,9 +33,9 @@ An interactive dashboard designed to visualize:
 
 # 📸 Dashboard Preview
 
-![Digital Privacy Intelligence Dashboard](privacy-dashboard.png)
-![Digital Privacy Intelligence Dashboard](privacy-dashboard.png)
-![Digital Privacy Intelligence Dashboard](privacy-dashboard.png)
+![Digital Privacy Intelligence Dashboard](Screenshot 2026-06-21 170323.png)
+![Digital Privacy Intelligence Dashboard](Screenshot 2026-06-21 170335.png)
+![Digital Privacy Intelligence Dashboard](Screenshot 2026-06-21 170343.png)
 
 ---
 

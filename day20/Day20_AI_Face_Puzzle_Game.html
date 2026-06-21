@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Face Puzzle Game</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:#fff;text-align:center;margin:0;padding:20px}
+video,canvas{max-width:420px;width:100%;border-radius:10px}
+button,select{padding:10px 15px;margin:8px;border:none;border-radius:8px}
+#puzzle{display:grid;gap:2px;margin:20px auto;max-width:500px}
+.tile{border:1px solid #444;cursor:move;background-size:100% 100%}
+.correct{outline:3px solid #22c55e}
+</style>
+</head>
+<body>
+<h1>AI Face Puzzle Game</h1>
+<video id="video" autoplay playsinline></video><br>
+<button id="snap">Take Photo</button>
+<canvas id="canvas" width="400" height="400" style="display:none"></canvas><br>
+<select id="difficulty">
+<option value="3">3x3</option>
+<option value="4">4x4</option>
+<option value="5">5x5</option>
+</select>
+<button id="start">Start Puzzle</button>
+<button onclick="location.reload()">New Photo</button>
+<div>
+<h3>Time: <span id="time">00:00</span> | Moves: <span id="moves">0</span></h3>
+</div>
+<div id="puzzle"></div>
+<h3>Leaderboard</h3>
+<ul id="leader"></ul>
+
+<script>
+let stream,imgData,pieces=[],moves=0,timer,startTime,dragIndex;
+const v=document.getElementById('video');
+navigator.mediaDevices.getUserMedia({video:{facingMode:"user"}})
+.then(s=>{stream=s;v.srcObject=s})
+.catch(()=>alert("Camera permission denied"));
+
+snap.onclick=()=>{
+ const c=canvas,ctx=c.getContext('2d');
+ c.style.display='block';
+ ctx.drawImage(v,0,0,c.width,c.height);
+ imgData=c.toDataURL();
+};
+
+start.onclick=()=>startGame(parseInt(difficulty.value));
+
+function startGame(n){
+ if(!imgData){alert("Take photo first");return;}
+ moves=0;document.getElementById('moves').textContent=0;
+ startTime=Date.now();
+ clearInterval(timer);
+ timer=setInterval(()=>{
+ let s=(Date.now()-startTime)/1000;
+ let m=Math.floor(s/60);
+ document.getElementById('time').textContent=String(m).padStart(2,'0')+":"+String(Math.floor(s%60)).padStart(2,'0');
+ },1000);
+
+ const board=document.getElementById('puzzle');
+ board.innerHTML='';
+ board.style.gridTemplateColumns=`repeat(${n},1fr)`;
+ const size=400/n;
+ pieces=[];
+ for(let i=0;i<n*n;i++) pieces.push(i);
+ pieces.sort(()=>Math.random()-0.5);
+
+ pieces.forEach((piece,pos)=>{
+  const d=document.createElement('div');
+  d.className='tile';
+  d.draggable=true;
+  d.dataset.pos=pos;
+  d.dataset.piece=piece;
+  d.style.width=size+'px';
+  d.style.height=size+'px';
+  let x=(piece%n)*(100/(n-1||1));
+  let y=(Math.floor(piece/n))*(100/(n-1||1));
+  d.style.backgroundImage=`url(${imgData})`;
+  d.style.backgroundSize=`${n*100}% ${n*100}%`;
+  d.style.backgroundPosition=`${x}% ${y}%`;
+  d.ondragstart=e=>dragIndex=pos;
+  d.ondragover=e=>e.preventDefault();
+  d.ondrop=e=>swap(pos);
+  board.appendChild(d);
+ });
+ render(n);
+}
+
+function swap(target){
+ [pieces[dragIndex],pieces[target]]=[pieces[target],pieces[dragIndex]];
+ moves++;
+ document.getElementById('moves').textContent=moves;
+ render(parseInt(difficulty.value));
+}
+
+function render(n){
+ const tiles=[...document.querySelectorAll('.tile')];
+ tiles.forEach((t,i)=>{
+  t.dataset.piece=pieces[i];
+  let p=pieces[i];
+  let x=(p%n)*(100/(n-1||1));
+  let y=(Math.floor(p/n))*(100/(n-1||1));
+  t.style.backgroundPosition=`${x}% ${y}%`;
+  t.classList.toggle('correct',p===i);
+ });
+ if(pieces.every((v,i)=>v===i)){
+   clearInterval(timer);
+   let time=document.getElementById('time').textContent;
+   alert("Puzzle Completed! Time: "+time+" Moves: "+moves);
+   let lb=JSON.parse(localStorage.getItem('facePuzzleLB')||'[]');
+   lb.push({time,moves,date:new Date().toLocaleDateString()});
+   lb=lb.slice(-5);
+   localStorage.setItem('facePuzzleLB',JSON.stringify(lb));
+   loadLB();
+ }
+}
+function loadLB(){
+ let lb=JSON.parse(localStorage.getItem('facePuzzleLB')||'[]');
+ leader.innerHTML=lb.map(x=>`<li>${x.time} | ${x.moves} moves | ${x.date}</li>`).join('');
+}
+loadLB();
+</script>
+</body>
+</html>

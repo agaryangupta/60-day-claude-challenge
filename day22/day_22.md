@@ -41,7 +41,7 @@ An AI-powered meeting platform where intelligent agents can represent users, par
 
 # 📸 Startup Validation Dashboard
 
-![Startup Validation Dashboard](1.png)
+![Startup Validation Dashboard](<1.png>)
 
 ---
 

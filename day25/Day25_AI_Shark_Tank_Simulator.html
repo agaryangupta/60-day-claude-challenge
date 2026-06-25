@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Day25 AI Shark Tank Simulator</title><style>
+body{font-family:Arial;background:#0b1020;color:#fff;margin:0;padding:24px}
+.wrap{max-width:1100px;margin:auto}
+.card{background:#18213c;border-radius:14px;padding:18px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+button{padding:12px 18px;background:#4f7cff;color:#fff;border:0;border-radius:8px;cursor:pointer}
+table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #333}
+.hidden{display:none}.score{font-size:30px;color:#7CFC98;font-weight:bold}
+</style></head><body><div class='wrap'>
+<h1>🦈 AI Shark Tank Simulator</h1>
+<div class='card'><h2>Startup</h2>
+<p><b>Agentic AI Meeting System</b></p>
+<p>Funding Ask: ₹2 Crore | Equity: 10%</p>
+<button onclick='run()'>Start Simulation</button></div>
+<div id='out' class='hidden'>
+<div class='card'><h2>AI Judges</h2><table><tr><th>Judge</th><th>Decision</th></tr>
+<tr><td>AI VC</td><td>✅ Invest</td></tr>
+<tr><td>YC Advisor</td><td>✅ Interested</td></tr>
+<tr><td>Angel Investor</td><td>🤝 Negotiate</td></tr>
+<tr><td>Growth Investor</td><td>⚠ Validate GTM</td></tr>
+</table></div>
+<div class='grid'>
+<div class='card'>Problem<div class='score'>92</div></div>
+<div class='card'>Solution<div class='score'>90</div></div>
+<div class='card'>Market<div class='score'>88</div></div>
+<div class='card'>Business<div class='score'>84</div></div>
+</div>
+<div class='card'><h2>Investment Decision</h2>
+<p><b>Valuation:</b> ₹20 Crore</p>
+<p><b>Investment:</b> ₹2 Crore</p>
+<h2 style='color:#7CFC98'>🟢 INVEST</h2>
+<p>Strong AI SaaS opportunity with scalable recurring revenue.</p>
+</div></div></div>
+<script>function run(){document.getElementById('out').classList.remove('hidden');}</script>
+</body></html>

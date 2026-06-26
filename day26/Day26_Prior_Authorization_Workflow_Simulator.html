@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Prior Authorization Workflow Simulator</title>
+<style>
+body{font-family:Arial,sans-serif;background:#eef6ff;margin:0;color:#111}
+header{background:#0d6efd;color:#fff;padding:16px;text-align:center}
+#top{display:flex;justify-content:space-around;flex-wrap:wrap;padding:10px;background:#d9ebff}
+.card{background:#fff;border:2px solid #9cc4ff;border-radius:8px;padding:10px;min-width:140px;text-align:center}
+#lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px}
+.lane{background:#fff;border:2px solid #7fb3ff;border-radius:8px;padding:10px;min-height:360px}
+.stage{border:2px dashed #7aa7d8;border-radius:8px;padding:10px;margin:8px 0;min-height:60px}
+.case{background:#0d6efd;color:#fff;padding:8px;border-radius:6px;cursor:grab}
+button{padding:8px 14px;margin:4px;border:none;border-radius:6px;background:#0d6efd;color:#fff;cursor:pointer}
+#panel{padding:12px}
+#docs label{display:block}
+#msg{background:#fff;padding:10px;border-left:5px solid #0d6efd;margin-top:10px}
+#celebrate{display:none;font-size:32px;text-align:center;animation:pop .7s infinite alternate}
+@keyframes pop{from{transform:scale(1)}to{transform:scale(1.2)}}
+@media(max-width:900px){#lanes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><h2>Prior Authorization Workflow Simulator</h2></header>
+
+<div id="top">
+<div class="card">Scenario<br><b id="scenarioName"></b></div>
+<div class="card">Days<br><b id="days">0</b></div>
+<div class="card">Efficiency<br><b id="score">100%</b></div>
+<div class="card">Progress<br><b id="progress">Start</b></div>
+</div>
+
+<div style="text-align:center;padding:8px">
+<button onclick="newPatient()">New Patient</button>
+<button onclick="submitPA()">Submit to Payer</button>
+</div>
+
+<div id="lanes">
+<div class="lane">
+<h3>Patient</h3>
+<div class="stage" data-step="Registration">Registration</div>
+<div class="stage" data-step="Evaluation">Evaluation</div>
+</div>
+
+<div class="lane">
+<h3>Provider</h3>
+<div class="stage" data-step="Documentation">
+<b>Collect Documents</b>
+<div id="docs">
+<label><input type="checkbox" value="Clinical Notes"> Clinical Notes</label>
+<label><input type="checkbox" value="Diagnosis"> Diagnosis</label>
+<label><input type="checkbox" value="Imaging"> Imaging/Labs</label>
+<label><input type="checkbox" value="Insurance"> Insurance Info</label>
+</div>
+</div>
+<div class="stage" data-step="Ready">Ready for Submission</div>
+</div>
+
+<div class="lane">
+<h3>Payer</h3>
+<div class="stage" data-step="Review">Review</div>
+<div class="stage" data-step="Outcome">Outcome</div>
+</div>
+</div>
+
+<div id="panel">
+<div id="msg">Start a new patient.</div>
+<div id="celebrate">🎉 APPROVED! 🎉</div>
+</div>
+
+<script>
+// Editable scenarios
+const scenarios=[
+{name:"Elective Surgery",need:"Medical necessity review",outcomes:["Approval","Pend","Denial"]},
+{name:"MRI Scan",need:"Imaging criteria",outcomes:["Approval","Pend"]},
+{name:"Specialty Medication",need:"Step therapy review",outcomes:["Approval","Denial","Appeal"]},
+{name:"Inpatient Admission",need:"Admission criteria",outcomes:["Approval","Peer-to-Peer","Denial"]}
+];
+
+let current=null,days=0,score=100;
+const caseEl=document.createElement("div");
+caseEl.className="case";
+caseEl.draggable=true;
+caseEl.textContent="Patient Case";
+
+caseEl.addEventListener("dragstart",e=>e.dataTransfer.setData("text","case"));
+
+document.querySelectorAll(".stage").forEach(s=>{
+ s.addEventListener("dragover",e=>e.preventDefault());
+ s.addEventListener("drop",e=>{
+   e.preventDefault();
+   if(!current)return;
+   s.appendChild(caseEl);
+   days++;
+   score=Math.max(40,score-3);
+   document.getElementById("days").textContent=days;
+   document.getElementById("score").textContent=score+"%";
+   document.getElementById("progress").textContent=s.dataset.step;
+   explain(s.dataset.step);
+ });
+});
+
+function explain(step){
+ let text={
+ Registration:"Patient registration completed.",
+ Evaluation:"Provider evaluates medical necessity.",
+ Documentation:"Collect all required PA documents.",
+ Ready:"Prior Authorization packet is ready.",
+ Review:"Payer reviews the submitted request.",
+ Outcome:"Review complete."
+ };
+ document.getElementById("msg").innerHTML="<b>"+step+":</b> "+(text[step]||"");
+}
+
+function newPatient(){
+ current=scenarios[Math.floor(Math.random()*scenarios.length)];
+ days=0;score=100;
+ document.getElementById("scenarioName").textContent=current.name;
+ document.getElementById("days").textContent=0;
+ document.getElementById("score").textContent="100%";
+ document.getElementById("progress").textContent="Registration";
+ document.querySelector('[data-step="Registration"]').appendChild(caseEl);
+ document.getElementById("celebrate").style.display="none";
+ document.querySelectorAll("#docs input").forEach(x=>x.checked=false);
+ document.getElementById("msg").innerHTML="<b>Scenario:</b> "+current.name+"<br>Requirement: "+current.need;
+}
+
+function submitPA(){
+ if(!current){alert("Start a patient first.");return;}
+ let all=[...document.querySelectorAll("#docs input")].every(x=>x.checked);
+ if(!all){alert("Collect all required documents first.");return;}
+ let result=current.outcomes[Math.floor(Math.random()*current.outcomes.length)];
+ let summary="<h3>Workflow Summary</h3><p>Scenario: "+current.name+
+ "</p><p>Elapsed Days: "+days+"</p><p>Efficiency: "+score+
+ "%</p><p><b>Outcome: "+result+"</b></p>";
+ if(result==="Approval"){
+   document.getElementById("celebrate").style.display="block";
+ }
+ if(result==="Denial"){
+   summary+="<p>Educational Note: Appeal can be initiated with additional evidence.</p>";
+ }
+ if(result==="Pend"){
+   summary+="<p>Educational Note: Payer requested more information.</p>";
+ }
+ if(result==="Appeal"){
+   summary+="<p>Educational Note: Appeal submitted successfully.</p>";
+ }
+ if(result==="Peer-to-Peer"){
+   summary+="<p>Educational Note: Physician discussion required.</p>";
+ }
+ document.getElementById("msg").innerHTML=summary;
+}
+newPatient();
+</script>
+</body>
+</html>

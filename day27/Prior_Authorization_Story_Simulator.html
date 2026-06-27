@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Prior Authorization Story Simulator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100">
+<div class="max-w-4xl mx-auto p-6">
+  <h1 class="text-3xl font-bold text-center mb-2">🏥 Prior Authorization Story Simulator</h1>
+  <p class="text-center text-gray-600 mb-4">Interactive healthcare education • Illustrative payer: StarCare Health</p>
+
+  <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+    <div id="bar" class="bg-blue-600 h-3 rounded-full" style="width:0%"></div>
+  </div>
+
+  <div id="chat" class="bg-white rounded-xl shadow p-4 h-[500px] overflow-y-auto space-y-3"></div>
+
+  <div id="choices" class="mt-4 flex gap-3 justify-center"></div>
+</div>
+
+<script>
+const scenes=[
+{
+title:"Doctor Visit",
+msgs:[
+{t:"center",m:"Scene 1 • Doctor Visit"},
+{t:"center",m:"Dr. Patel diagnoses Rahul with Rheumatoid Arthritis and recommends Humira."},
+{t:"left",m:"👦 Rahul: My joint pain has become unbearable."},
+{t:"right",m:"👧 Priya: Your doctor recommends Humira, but insurance approval is needed first."}
+]},
+{
+title:"Insurance Roadblock",
+msgs:[
+{t:"center",m:"Scene 2 • Provider → PA Request → Payer"},
+{t:"right",m:"Dr. Patel's office submits a Prior Authorization directly to StarCare Health (illustrative example)."},
+{t:"left",m:"So the pharmacy doesn't submit it?"},
+{t:"right",m:"Correct. The provider sends it to the payer. Once approved, the authorization is saved on file."}
+]},
+{
+title:"What is PA?",
+msgs:[
+{t:"center",m:"Scene 3"},
+{t:"right",m:"Prior Authorization helps insurers confirm that treatment is medically necessary."},
+{t:"right",m:"Step therapy isn't just bureaucracy. For aggressive diseases, delays may affect disease progression."},
+{t:"right",m:"AMA 2023 PA Survey: PA causes treatment delays in the majority of cases."}
+]},
+{
+title:"Insurance Review",
+msgs:[
+{t:"center",m:"Scene 4"},
+{t:"right",m:"The payer reviews eligibility, clinical documentation, ICD-10 diagnosis match, and step therapy history."},
+{t:"left",m:"Each check ensures the requested medicine meets policy and medical guidelines."}
+]},
+{
+title:"Denial",
+msgs:[
+{t:"center",m:"Scene 5"},
+{t:"center",m:"Initial decision: Denied due to missing step therapy documentation."},
+{t:"right",m:"A denial isn't permanent. PA denials often cost physician offices 2+ staff hours to resolve."}
+]},
+{
+title:"Appeal",
+msgs:[
+{t:"center",m:"Scene 6"},
+{t:"right",m:"The care team gathers documents, prepares a Letter of Medical Necessity, and files an appeal."}
+]},
+{
+title:"Approval",
+msgs:[
+{t:"center",m:"Scene 7"},
+{t:"center",m:"Appeal successful."},
+{t:"right",m:"StarCare Health (illustrative example) approves the PA and issues a reference number. No repeat PA is needed for this Humira authorization."},
+{t:"left",m:"That's a relief!"}
+]},
+{
+title:"Takeaways",
+msgs:[
+{t:"center",m:"Scene 8"},
+{t:"left",m:"Patient: I learned that denials can often be appealed with proper documentation."},
+{t:"right",m:"System: Health systems monitor denial rate, appeal rate, and average resolution time to improve care."},
+{t:"center",m:"🎉 Story Complete"}
+]}
+];
+
+let current=0;
+const chat=document.getElementById("chat");
+const choices=document.getElementById("choices");
+const bar=document.getElementById("bar");
+
+function bubble(type,text){
+ const d=document.createElement("div");
+ if(type==="center"){
+   d.className="text-center italic text-gray-600";
+   d.textContent=text;
+ }else{
+   const wrap=document.createElement("div");
+   wrap.className= type==="left"?"flex justify-start":"flex justify-end";
+   const b=document.createElement("div");
+   b.className=(type==="left"?"bg-blue-100":"bg-green-100")+" max-w-xs rounded-xl px-4 py-2 shadow";
+   b.textContent=text;
+   wrap.appendChild(b);
+   return wrap;
+ }
+ return d;
+}
+
+function render(){
+ choices.replaceChildren();
+ scenes[current].msgs.forEach(m=>chat.appendChild(bubble(m.t,m.m)));
+ chat.scrollTop=chat.scrollHeight;
+ bar.style.width=((current+1)/scenes.length*100)+"%";
+ if(current<scenes.length-1){
+   const a=document.createElement("button");
+   a.className="px-4 py-2 bg-blue-600 text-white rounded";
+   a.textContent="Ask a question";
+   const b=document.createElement("button");
+   b.className="px-4 py-2 bg-emerald-600 text-white rounded";
+   b.textContent="Continue";
+   a.onclick=()=>{const x=document.createElement("div");x.className="text-center text-sm italic text-gray-500";x.textContent="You chose to ask a question. Priya explains in simpler language.";chat.appendChild(x);chat.scrollTop=chat.scrollHeight;current++;render();};
+   b.onclick=()=>{current++;render();};
+   choices.appendChild(a);choices.appendChild(b);
+ }else{
+   const done=document.createElement("div");
+   done.className="font-semibold text-green-700";
+   done.textContent="Simulation finished.";
+   choices.appendChild(done);
+ }
+}
+render();
+</script>
+</body>
+</html>

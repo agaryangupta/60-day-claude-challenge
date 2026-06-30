@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supply Chain Builder</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial;background:linear-gradient(135deg,#0f172a,#111827,#1e293b);color:#fff}
+.container{max-width:1100px;margin:auto;padding:30px}
+.card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.metric{background:#1f2937;border-radius:14px;padding:14px;text-align:center}
+.bar{height:10px;background:#374151;border-radius:20px;overflow:hidden;margin-top:8px}
+.fill{height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6);transition:.5s}
+button{background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;border:0;padding:12px 18px;border-radius:10px;font-weight:600;cursor:pointer}
+button:hover{transform:translateY(-2px)}
+.badge{display:inline-block;background:#10b98122;color:#34d399;padding:6px 12px;border-radius:20px;font-size:13px}
+</style>
+</head>
+<body><div id="root"></div>
+<script type="text/babel">
+function App(){
+const companies=["Electronics","Healthcare","Retail","Automotive"];
+const company=React.useMemo(()=>companies[Math.floor(Math.random()*companies.length)],[]);
+const [done,setDone]=React.useState(false);
+const score=89;
+return <div className="container">
+<h1>🚚 Supply Chain Builder</h1>
+<p style={{color:"#cbd5e1"}}>Build a resilient supply chain through strategic decisions.</p>
+
+<div className="grid">
+<div className="metric"><div className="badge">Industry</div><h3>{company}</h3></div>
+<div className="metric"><div className="badge">Markets</div><h3>18 Countries</h3></div>
+<div className="metric"><div className="badge">Demand</div><h3>High</h3></div>
+<div className="metric"><div className="badge">Risk</div><h3>Medium</h3></div>
+</div>
+
+{!done?
+<div className="card">
+<h2>Optimization Plan</h2>
+<p><b>Suppliers:</b> Multiple</p>
+<p><b>Factory:</b> Vietnam</p>
+<p><b>Warehouse:</b> Regional Network</p>
+<p><b>Transport:</b> Sea + Road</p>
+<p><b>Inventory:</b> Balanced</p>
+<button onClick={()=>setDone(true)}>Generate Executive Dashboard</button>
+</div>
+:
+<div className="card">
+<h2>📊 Executive Dashboard</h2>
+<div className="grid">
+{[
+["Overall Score",score],
+["Cost",76],
+["Delivery",91],
+["Risk Control",82],
+["Customer",88]
+].map(([n,v])=><div className="metric" key={n}><b>{n}</b><h2>{v}%</h2><div className="bar"><div className="fill" style={{width:v+"%"}}></div></div></div>)}
+</div>
+<h3>Strengths</h3>
+<ul><li>Fast delivery</li><li>Balanced inventory</li><li>Supplier diversification</li></ul>
+<h3>Recommendations</h3>
+<ul><li>Increase AI demand forecasting</li><li>Add backup logistics partners</li><li>Reduce single-region dependency</li></ul>
+<button onClick={()=>location.reload()}>🔄 Replay</button>
+</div>}
+</div>}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+</script></body></html>

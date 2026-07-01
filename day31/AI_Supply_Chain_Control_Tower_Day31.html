@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Supply Chain Control Tower</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#07111d;color:#eaf6ff}
+header{padding:16px;background:#0d1f33;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+h1{margin:0;color:#6fdcff}
+.controls button{margin-left:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding:15px}
+.card{background:#10253d;border:1px solid #1d4f73;border-radius:12px;padding:12px;box-shadow:0 0 10px rgba(0,255,255,.15)}
+.value{font-size:22px;font-weight:bold}
+main{display:grid;grid-template-columns:2fr 1fr;gap:14px;padding:15px}
+#alerts,#log{background:#0d1f33;border-radius:12px;padding:12px;min-height:420px}
+.alert{border-left:5px solid;padding:10px;margin:10px 0;background:#132944;border-radius:8px}
+.high{border-color:#ff4d4d}.medium{border-color:#ffb347}.low{border-color:#52d273}
+.actions button{margin:4px;padding:6px 10px}
+#end{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);align-items:center;justify-content:center}
+.modal{background:#10253d;padding:25px;border-radius:12px;max-width:600px}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div><h1>AI Supply Chain Control Tower</h1><small>Head of Operations Simulation</small></div>
+<div class="controls">
+<button onclick="paused=!paused">Pause</button>
+<button onclick="toggleHelp()">Help</button>
+<button>🔊</button>
+</div>
+</header>
+
+<section class="grid" id="kpis"></section>
+
+<main>
+<div id="alerts"><h2>Operational Alerts</h2></div>
+<div id="log"><h2>Event Log</h2><div id="events"></div></div>
+</main>
+
+<div id="end">
+<div class="modal">
+<h2>Simulation Complete</h2>
+<div id="summary"></div>
+<button onclick="location.reload()">Play Again</button>
+</div>
+</div>
+
+<script>
+let state={
+score:0,service:95,sat:90,inventory:92,transport:91,cost:20,revenue:0,time:180,
+resolved:0,correct:0,wrong:0
+};
+let paused=false;
+const alertsEl=document.getElementById("alerts");
+const events=document.getElementById("events");
+const alertTypes=[
+["Port Congestion","High"],["Supplier Delay","High"],["Truck Breakdown","Medium"],
+["Warehouse Out of Stock","High"],["Customs Inspection","Medium"],
+["Demand Spike","Low"],["Machine Failure","High"],["Weather Disruption","Medium"],
+["Wrong Inventory Count","Low"],["Damaged Shipment","Medium"]
+];
+const actions=["Expedite Shipment","Backup Supplier","Reroute Trucks","Increase Production","Transfer Inventory","Air Freight","Ignore","Delay"];
+function renderKPIs(){
+const k=document.getElementById("kpis");
+k.innerHTML="";
+[
+["Service Level",state.service+"%"],["Customer Satisfaction",state.sat],
+["Inventory Health",state.inventory],["Transport",state.transport],
+["Operating Cost","$"+state.cost+"M"],["Revenue Protected","$"+state.revenue+"M"],
+["Score",state.score],["Time",state.time+"s"]
+].forEach(x=>{
+let c=document.createElement("div");
+c.className="card";
+c.innerHTML=`<div>${x[0]}</div><div class=value>${x[1]}</div>`;
+k.appendChild(c);
+});
+}
+function log(msg){
+events.innerHTML="<div>"+new Date().toLocaleTimeString()+" - "+msg+"</div>"+events.innerHTML;
+}
+function spawnAlert(){
+const [title,p]=alertTypes[Math.floor(Math.random()*alertTypes.length)];
+const div=document.createElement("div");
+div.className="alert "+p.toLowerCase();
+const best=Math.floor(Math.random()*6);
+div.innerHTML=`<strong>🚨 ${title}</strong><br>
+Priority: ${p}<br>
+Business impact: Operational disruption
+<div class=actions></div>`;
+const act=div.querySelector(".actions");
+actions.forEach((a,i)=>{
+let b=document.createElement("button");
+b.textContent=a;
+b.onclick=()=>{
+if(i===best){
+state.score+=15;state.correct++;state.service=Math.min(100,state.service+1);state.sat++;state.revenue+=2;
+log(title+" resolved successfully.");
+}else{
+state.score-=8;state.wrong++;state.cost++;state.sat--;state.service--;
+log("Poor decision for "+title);
+setTimeout(()=>{state.transport--;renderKPIs();},3000);
+}
+state.resolved++;
+renderKPIs();
+div.remove();
+};
+act.appendChild(b);
+});
+alertsEl.appendChild(div);
+}
+setInterval(()=>{
+if(paused)return;
+state.time--;
+if(state.time<=0){
+document.getElementById("end").style.display="flex";
+let grade=state.score>220?"A+":state.score>170?"A":state.score>120?"B":state.score>70?"C":"D";
+document.getElementById("summary").innerHTML=
+`<p><b>Score:</b> ${state.score}</p>
+<p><b>Grade:</b> ${grade}</p>
+<p>Resolved: ${state.resolved}<br>Correct: ${state.correct}<br>Wrong: ${state.wrong}</p>
+<p>KPIs → Service ${state.service}% | Satisfaction ${state.sat} | Inventory ${state.inventory} | Transport ${state.transport}</p>`;
+return;
+}
+renderKPIs();
+},1000);
+
+setInterval(()=>{
+if(paused||state.time<=0)return;
+spawnAlert();
+},3500);
+
+function toggleHelp(){
+alert("Prioritize alerts, choose the best action, improve KPIs, maximize score before time expires.");
+}
+renderKPIs();
+spawnAlert();
+</script>
+</body>
+</html>

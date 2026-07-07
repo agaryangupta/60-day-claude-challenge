@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Compass - Demo</title>
+<style>
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#1e293b,#0f172a);
+  color:white;display:flex;justify-content:center;align-items:center;
+  min-height:100vh;
+}
+.card{
+  width:90%;max-width:700px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:20px;padding:30px;
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+h1{margin-top:0}
+button{
+  padding:12px 22px;border:none;border-radius:10px;
+  background:#38bdf8;color:#001;font-weight:bold;cursor:pointer;
+}
+button:hover{transform:scale(1.05)}
+#result{
+  margin-top:20px;padding:15px;border-radius:10px;
+  background:rgba(255,255,255,.08);
+}
+.progress{
+  height:10px;background:#334155;border-radius:10px;overflow:hidden;margin:20px 0;
+}
+.bar{
+  width:0;height:100%;background:#22c55e;transition:.6s;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>🧭 Task Compass</h1>
+<p><b>Learn how work flows through real organizations.</b></p>
+
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<p><b>Scenario:</b> A customer reports that payments fail only on iPhones.</p>
+
+<label><input type="radio" name="role" value="Frontend Developer"> Frontend Developer</label><br>
+<label><input type="radio" name="role" value="Backend Developer"> Backend Developer</label><br>
+<label><input type="radio" name="role" value="QA Engineer"> QA Engineer</label><br>
+<label><input type="radio" name="role" value="Customer Support"> Customer Support</label><br><br>
+
+<button onclick="check()">Submit</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+function check(){
+ const selected=document.querySelector('input[name="role"]:checked');
+ if(!selected){
+   alert("Please select a role.");
+   return;
+ }
+ document.getElementById("bar").style.width="100%";
+ const r=document.getElementById("result");
+ if(selected.value==="QA Engineer"){
+   r.innerHTML="<h3>✅ Primary Owner: QA Engineer</h3><p><b>Why?</b> QA reproduces and verifies device-specific bugs before routing them to engineering.</p><p><b>Supporting Roles:</b> Frontend Developer, Backend Developer, Customer Support.</p>";
+ }else{
+   r.innerHTML="<h3>Good attempt!</h3><p><b>Primary Owner:</b> QA Engineer</p><p>QA first reproduces the issue, then works with developers to fix it.</p>";
+ }
+}
+</script>
+</body>
+</html>

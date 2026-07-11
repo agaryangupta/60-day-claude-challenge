@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive Learning Studio - JavaScript Promises</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#0f172a;color:#e2e8f0}
+header{padding:30px;background:#1e293b;text-align:center}
+main{max-width:1000px;margin:auto;padding:20px}
+.card{background:#1e293b;border-radius:12px;padding:18px;margin:18px 0}
+button{padding:10px 18px;border:none;border-radius:8px;background:#38bdf8;color:#001}
+.hidden{display:none}
+.progress{height:12px;background:#334155;border-radius:6px;overflow:hidden}
+.bar{height:100%;width:25%;background:#22c55e}
+.quiz label{display:block;margin:8px 0}
+footer{padding:20px;text-align:center;color:#94a3b8}
+</style>
+<script>
+let unlocked=1,score=0;
+function check(id,ans){
+ const sel=document.querySelector('input[name="'+id+'"]:checked');
+ if(!sel){alert("Select an answer");return;}
+ let out=document.getElementById(id+"out");
+ if(sel.value===ans){score++;out.innerHTML="✅ Correct";} else {out.innerHTML="❌ Incorrect. Correct: "+ans;}
+ document.getElementById("m"+(parseInt(id.replace('q',''))+1)).classList.remove("hidden");
+ document.getElementById("bar").style.width=(25*(parseInt(id.replace('q',''))+1))+"%";
+}
+</script>
+</head>
+<body>
+<header>
+<h1>Interactive Learning Studio</h1>
+<h2>Topic: JavaScript Promises</h2>
+<p>Objectives: Understand async programming, create promises, chain them, use async/await.</p>
+<p>Time: 60–90 min | Prerequisites: Basic JavaScript</p>
+</header>
+<main>
+<div class="progress"><div id="bar" class="bar"></div></div>
+
+<div class="card" id="m1">
+<h3>Module 1 – Foundations</h3>
+<p>A Promise represents a future value. Think of ordering food—you receive it later.</p>
+<pre>new Promise((resolve,reject)=>resolve("Done"));</pre>
+<div class="quiz">
+<p>Promise has how many states?</p>
+<label><input type="radio" name="q1" value="3">3</label>
+<label><input type="radio" name="q1" value="2">2</label>
+<button onclick="check('q1','3')">Submit</button>
+<div id="q1out"></div>
+</div>
+</div>
+
+<div class="card hidden" id="m2">
+<h3>Module 2 – Chaining</h3>
+<p>Use <code>.then()</code> to chain operations and <code>.catch()</code> for errors.</p>
+<div class="quiz">
+<p>Which handles errors?</p>
+<label><input type="radio" name="q2" value=".catch()">.catch()</label>
+<label><input type="radio" name="q2" value=".map()">.map()</label>
+<button onclick="check('q2','.catch()')">Submit</button>
+<div id="q2out"></div>
+</div>
+</div>
+
+<div class="card hidden" id="m3">
+<h3>Module 3 – Async/Await</h3>
+<p><code>await</code> pauses inside async functions.</p>
+<div class="quiz">
+<p>await works inside?</p>
+<label><input type="radio" name="q3" value="async function">async function</label>
+<label><input type="radio" name="q3" value="for loop">for loop</label>
+<button onclick="check('q3','async function')">Submit</button>
+<div id="q3out"></div>
+</div>
+</div>
+
+<div class="card hidden" id="m4">
+<h3>Module 4 – Practical Challenge</h3>
+<p>Fetch data from an API with async/await and handle failures gracefully.</p>
+<div class="quiz">
+<p>Best method for readable async code?</p>
+<label><input type="radio" name="q4" value="async/await">async/await</label>
+<label><input type="radio" name="q4" value="goto">goto</label>
+<button onclick="check('q4','async/await')">Submit</button>
+<div id="q4out"></div>
+<p id="final"></p>
+<script>
+document.querySelector('#m4 button').addEventListener('click',()=>setTimeout(()=>{
+document.getElementById('final').innerHTML="Final Score: "+score+"/4<br><br><b>Cheat Sheet:</b> Promise, then, catch, finally, async, await.<br>Continue Learning: MDN, javascript.info, Frontend Mentor, LeetCode.";
+},100));
+</script>
+</div>
+</div>
+</main>
+<footer>Single-file demo for ABTalks Day 41</footer>
+</body>
+</html>

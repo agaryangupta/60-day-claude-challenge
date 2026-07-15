@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Decision Strategist</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg-main:#0f0f14;--bg-card:#1a1a24;--bg-card-alt:#1e1e2e;
+--text-primary:#f0f0f5;--text-secondary:#8888a0;
+--accent-green:#34d399;--accent-red:#f87171;
+--accent-blue:#60a5fa;--accent-gold:#fbbf24;
+--accent-purple:#a78bfa;--border:rgba(255,255,255,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg-main);color:var(--text-primary);font-family:Inter,system-ui,sans-serif}
+.container{max-width:760px;margin:auto;padding:24px}
+header{text-align:center;padding:20px}
+h1{margin:0;font-size:34px}
+.sub{color:var(--text-secondary)}
+.line{height:3px;background:linear-gradient(90deg,var(--accent-blue),var(--accent-purple),var(--accent-gold));border-radius:4px;margin-top:16px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--accent-blue);border-radius:16px;padding:24px;margin:24px 0;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#111;color:#fff;margin-top:8px}
+button{padding:12px 18px;border:none;border-radius:10px;background:var(--accent-blue);color:white;font-weight:700;cursor:pointer;margin-top:16px}
+button:hover{opacity:.9}
+.progress{height:28px;background:#262633;border-radius:8px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#3b82f6);display:flex;justify-content:flex-end;align-items:center;padding-right:8px;font-weight:700;animation:grow 1s forwards}
+@keyframes grow{to{width:var(--w)}}
+.hidden{display:none}
+.small{font-size:12px;color:var(--text-secondary)}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>DECISION REPORT</h1>
+<div class="sub">AI Decision Strategist Demo</div>
+<div class="line"></div>
+</header>
+
+<div id="interview" class="card">
+<h2>Question <span id="qno">1</span> of 4</h2>
+<p id="question"></p>
+<textarea id="answer" rows="5" placeholder="Type your answer..."></textarea>
+<button onclick="nextQuestion()">Next</button>
+</div>
+
+<div id="report" class="hidden">
+<div class="card"><h2>SECTION 1 — THE REAL DECISION</h2><p id="real"></p></div>
+<div class="card" style="border-left-color:var(--accent-green)">
+<h2>SECTION 2 — OPTIONS</h2>
+<div id="options"></div>
+</div>
+<div class="card" style="border-left-color:var(--accent-purple)">
+<h2>SECTION 3 — ASSUMPTION BUSTER</h2>
+<ul>
+<li>Review your assumptions objectively.</li>
+<li>Watch for confirmation bias and loss aversion.</li>
+<li>Consider evidence that challenges your preferred option.</li>
+</ul>
+</div>
+<div class="card">
+<h2>SECTION 4 — DECISION MATRIX</h2>
+<div>Overall Confidence</div>
+<div class="progress"><div class="fill" style="--w:78%">78%</div></div>
+</div>
+<div class="card" style="border-left-color:var(--accent-red)">
+<h2>SECTION 5 — PREMORTEM</h2>
+<p>Imagine this decision failed after 12 months. List the top three reasons and create prevention actions.</p>
+</div>
+<div class="card" style="border-left-color:var(--accent-green)">
+<h2>SECTION 6 — 7-DAY TEST PLAN</h2>
+<ol>
+<li>Research both options.</li>
+<li>Collect facts.</li>
+<li>Run one small experiment.</li>
+<li>Reflect on results.</li>
+<li>Talk to an experienced person.</li>
+<li>Review risks.</li>
+<li>Make the decision.</li>
+</ol>
+</div>
+<div class="card" style="border-left-color:var(--accent-gold);background:var(--bg-card-alt)">
+<h2>SECTION 7 — VERDICT</h2>
+<h1 style="color:var(--accent-gold)">Make the choice supported by evidence.</h1>
+<p>The strongest decision is the one that best aligns with your long-term goals—not short-term comfort.</p>
+</div>
+<div class="card" style="border-left-color:var(--accent-gold)">
+<h2>SECTION 8 — SHAREABLE CARD</h2>
+<p><strong>Decision:</strong> Think clearly. Decide confidently.</p>
+<div class="small">Built with Claude AI | ABTalks 60-Day Challenge</div>
+</div>
+</div>
+</div>
+
+<script>
+const qs=[
+"What's the decision you're stuck on? Tell me the options and why it's hard right now.",
+"What's your goal — and what's the timeline for this decision?",
+"What does your gut say is the right choice — and what's stopping you from just going with it?",
+"What's the ONE thing you're most scared of getting wrong — and can you undo this decision if it doesn't work out?"
+];
+let i=0,answers=[];
+document.getElementById("question").textContent=qs[0];
+
+function nextQuestion(){
+ const a=document.getElementById("answer").value.trim();
+ if(!a){alert("Please answer first.");return;}
+ answers.push(a);
+ document.getElementById("answer").value="";
+ i++;
+ if(i<qs.length){
+   document.getElementById("qno").textContent=i+1;
+   document.getElementById("question").textContent=qs[i];
+ }else{
+   document.getElementById("interview").classList.add("hidden");
+   document.getElementById("report").classList.remove("hidden");
+   document.getElementById("real").textContent=answers[0];
+   document.getElementById("options").innerHTML="<p><strong>Your goal:</strong> "+answers[1]+"</p><p><strong>Your intuition:</strong> "+answers[2]+"</p><p><strong>Biggest fear:</strong> "+answers[3]+"</p>";
+   window.scrollTo({top:0,behavior:"smooth"});
+ }
+}
+</script>
+</body>
+</html>
